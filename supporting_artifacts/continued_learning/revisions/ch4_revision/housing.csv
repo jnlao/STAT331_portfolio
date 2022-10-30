@@ -1,0 +1,17 @@
+region,Year,Average Housing Price
+LosAngeles,2015,4.86
+LosAngeles,2016,5.20
+LosAngeles,2017,5.55
+LosAngeles,2018,5.88
+Sacramento,2015,2.44
+Sacramento,2016,2.71
+Sacramento,2017,2.99
+Sacramento,2018,3.24
+SanDiego,2015,2.79
+SanDiego,2016,2.97
+SanDiego,2017,3.18
+SanDiego,2018,3.37
+SanFrancisco,2015,11
+SanFrancisco,2016,12.57
+SanFrancisco,2017,14.69
+SanFrancisco,2018,15.73

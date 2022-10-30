@@ -1,0 +1,78 @@
+---
+title: "Challenge 3: Hip-Hop Lyrics"
+author: "Janalyn Lao"
+format: html
+editor: visual
+theme: cyborg
+code-fold: show
+---
+
+## Setup
+
+```{r}
+#| label: setup
+#| message: false
+
+library(tidyverse)
+library(here)
+
+```
+
+```{r}
+#| label: load data
+#| message: false
+
+hiphop <- read_csv(here::here("supporting_artifacts",
+                              "continued_learning",
+                              "revisions",
+                              "ch3_revision",
+                              "hiphop.csv"))
+
+```
+
+## Published Comparisons
+
+```{r}
+#| label: create new dataset for male vs female
+#| message: false
+
+hiphop |> 
+  group_by(sex) |> 
+  summarise(
+    across(intl : unclassifiable, mean)
+  ) |> 
+  summarise(
+    across(intl : unclassifiable, diff)
+  )
+
+```
+
+Between males and females, the highest difference in mean reported artists was in rock.
+
+```{r}
+#| label: create new dataset for white vs non-white
+#| message: false
+
+hiphop |> 
+  mutate(ethnic = if_else(ethnic != "white", "non-white", "white")) |> 
+  group_by(ethnic) |> 
+  summarise(
+    across(intl : unclassifiable, mean)
+  ) |> 
+  summarise(
+    across(intl : unclassifiable, diff)
+  )
+
+```
+
+Between white and non-white subjects, the highest difference in mean reported artists was in international music.
+
+[Great work! You are on the right track! The next step is to find the differences in these means. Could you use another `summarize()` step to get these differences?]{style="color:red"}
+
+[Where is the code output to confirm your summary?]{style="color:red"}
+
+## Concerns of the Study
+
+One concern I have is for the first move question, the name and ethnicity of the persons involved were asked. I wonder if a person listed someone with a stereotypical African American name, it would somehow affect the data. For example, I believe I know a fair amount of AAE terms because of the community I grew up in, however, I would list names like "Phoebe, Asian" or "Dennis, Asian" for this question, which wouldn't really do anything to enforce any data.
+
+Another concern I have is with the second move question, it seems like it is implied that being friends/acquaintances with an African American person would somehow lead to more insight on a person's data outcome. There are many African American individuals who don't listen to hip-hop or speak in the AAE dialect so this question seems to generalize them all together.
