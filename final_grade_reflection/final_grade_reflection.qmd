@@ -1,5 +1,5 @@
 ---
-title: "Midterm Grade Reflection"
+title: "Final Grade Reflection"
 author: "Janalyn Lao"
 format: pdf
 editor: visual

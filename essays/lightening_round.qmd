@@ -1,5 +1,26 @@
 ---
 title: "Lightening Round Essays"
+author: Janalyn Lao
 format: html
 editor: visual
 ---
+
+### Question 1
+
+If Elizabeth doesn\'t earn an A, then nobody should, because... she's put so much effort on all her assignments and has communicated very efficiently with her team when needed. Professor Theobold gives so many opportunities for students to improve and Elizabeth works hard to use these opportunities as best she can. Knowing her all quarter, she definitely deserves an A with how much effort and knowledge she's displayed with me in class.
+
+### Question 2
+
+The most difficult part of class for me was writing the make_phrase function for lab 8. I knew what I wanted to function to do but was having a hard time figuring out the coding logic to get the function to do what I needed it to do.
+
+### Question 3
+
+The easiest part of class for me was coming to class and actually enjoying what I was learning and who I was learning it with. Looking back, I never necessarily dreaded coming to class because I knew generally what was going to happen, what we were learning, and who I was working with. I really enjoyed the classroom environment.
+
+### Question 4
+
+The part of class that surprised me the most was the grading system. I've never had a class with outcomes-based grading but after taking it, I wish all classes were like this. I loved being graded on my effort in class and not on what I could memorize and regurgitate on an exam.
+
+### Question 5
+
+One piece of advice is to attend class. I don't think I would've done as well in class if I didn't have my group to collaborate with and access to Professor Theobold and the TA.
