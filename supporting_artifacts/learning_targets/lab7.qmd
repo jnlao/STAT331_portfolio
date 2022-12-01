@@ -1,0 +1,129 @@
+---
+title: "Lab 7"
+author: "Janalyn Lao"
+format:
+  html: 
+    self-contained: true
+editor: visual
+theme: cyborg
+code-fold: show
+---
+
+## Setup
+
+```{r}
+#| message: false
+
+library(tidyverse)
+
+```
+
+```{r}
+#| message: false
+
+fish <- read_csv(here::here("labs", "lab7", "revision", "BlackfootFish.csv"))
+
+```
+
+## **Part One: Summaries and Plots**
+
+### 1) Summarizing Missing Data
+
+```{r}
+
+fish |> 
+  summarize(
+    across(
+      .cols = everything(),
+      .fns = ~sum(is.na(.))
+    )
+  )
+
+```
+
+1796 observations are missing from "weight".
+
+### 2) **Visualizing Missing Data**
+
+```{r}
+#| message: false
+
+fish |> 
+  mutate(trips = ifelse(trip == 1,
+                        "Trip 1",
+                        "Trip 2")) |> 
+  group_by(trips, year, section) |> 
+  summarize(weight = sum(is.na(weight))) |> 
+  ggplot(mapping = aes(x = year, y = weight)) +
+    geom_col(
+      aes(fill = section),
+      position = "stack") +
+    facet_wrap(~trips) +
+    labs(x = "Year of Observation",
+         y = "",
+         title = "Number of Missing Weight Observations",
+         fill = "River Section")
+
+```
+
+## **Part Two: Adjusting the Data**
+
+### Task 1, 2 and 3: Writing a Function With Stops and a Test
+
+```{r}
+
+rescale_01 <- function(vec) {
+  stopifnot(is.numeric(vec) || length(vec) > 1)
+  
+  vec_min <- min(vec, na.rm = TRUE)
+  num <- vec - vec_min
+  denom <- max(vec, na.rm = TRUE) - vec_min
+  
+  return(num / denom)
+}
+
+x <- c(1:25, NA)
+rescale_01(x)
+
+```
+
+### Task 4: Performing a More Difficult Test
+
+```{r}
+#| layout-ncol: 2
+
+fish_len <- fish |> 
+  select(length) |> 
+  mutate(rescaled_len = rescale_01(length))
+  
+ggplot(data = fish_len,
+       mapping = aes(x = length)) +
+    geom_histogram() +
+    labs(x = "Fish Length")
+
+ggplot(data = fish_len,
+       mapping = aes(x = rescaled_len)) +
+    geom_histogram() +
+    labs(x = "Rescaled Fish Length")
+
+```
+
+### Task 5: Incorporating Variables
+
+```{r}
+
+rescale_column <- function(data, var) {
+  stopifnot(is.data.frame(data))
+  
+  data |> 
+    mutate(
+      across(
+        .cols = {{var}},
+        .fns = rescale_01
+      )
+    )
+}
+
+rescale_column(fish, length:weight)
+
+```

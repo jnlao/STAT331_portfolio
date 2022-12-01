@@ -1,0 +1,207 @@
+---
+title: "Lab 9: Baby Names"
+author: "Janalyn Lao"
+format: html
+editor: visual
+theme: cyborg
+code-fold: show
+---
+
+## Setup
+
+```{r}
+#| message: false
+
+library(tidyverse)
+library(here)
+
+```
+
+## 2. Is my name not cool anymore?
+
+```{r}
+#| message: false
+
+a_names <- read_csv(here::here("labs", "lab9", "BabyNames", "StateNames_A.csv"))
+
+a_names <- a_names |> 
+  rename(Sex_at_Birth = 'Gender')
+
+```
+
+## 3. **Summarizing & Visualizing the Number of Allisons**
+
+### 1) Summary Table
+
+```{r}
+#| message: false
+
+allison_both_sexes <- a_names |> 
+  filter(Name == "Allison") |> 
+  group_by(Sex_at_Birth, State) |> 
+  summarize(sex_count = sum(Count)) |> 
+  pivot_wider(names_from = Sex_at_Birth,
+              values_from = sex_count)
+allison_both_sexes[is.na(allison_both_sexes)] <- 0
+
+allison_both_sexes
+  
+
+```
+
+### 2) Only Babies Assigned Female at Birth
+
+```{r}
+
+allison_females <- a_names |>
+  filter(Name == "Allison",
+         Sex_at_Birth == "F") |> 
+  group_by(Sex_at_Birth, State) |> 
+  summarize(sex_count = sum(Count), .groups = "drop")
+
+```
+
+### 3) Visualization of "Allison" Over the Years
+
+```{r}
+
+allison <- a_names |>
+  filter(Name == "Allison") |> 
+  group_by(Year) |> 
+  summarize(a_count = sum(Count), .groups = "drop") 
+  
+ggplot(data = allison,
+       mapping = aes(x = Year, y = a_count)) +
+    geom_point() +
+    geom_line() +
+    labs(x = "Year Observed",
+         y = "",
+         title = "Count of 'Allison'") +
+    scale_x_continuous(n.breaks=10) +
+    scale_y_continuous(n.breaks=10)
+
+# https://www.statology.org/ggplot-axis-ticks/
+  
+```
+
+## 4. Modeling the Number of Allisons
+
+### 4) Create a Linear Model
+
+```{r}
+
+allison_lm <- allison |> 
+  lm(a_count ~ Year, data = _)
+
+allison_lm
+
+```
+
+### 5) Visualize the Regression Model
+
+```{r}
+
+allison |> 
+  ggplot(aes(x = Year, y = a_count)) +
+  geom_point() +
+  stat_smooth(method = "lm") + 
+  labs(x = "Year Observed", 
+       y = "",
+       title = "Count of 'Allison'")
+
+```
+
+### 6) Estimated Regression Equation
+
+y = 209815.1 - 101.6x
+
+### 7) Residuals and Patterns
+
+```{r}
+
+allison_lm |> 
+  broom::augment() |> 
+  ggplot(mapping = aes(x = Year,
+                       y = .resid)) +
+  geom_point() +
+  labs(x = "Year Observed",
+       y = "",
+       title = "Residuals") +
+  scale_x_continuous(n.breaks=10)
+
+```
+
+The only significant pattern I see is that starting in 2011, the residuals begin to increase in a linear way.
+
+### 8) What can you conclude from this model?
+
+Based on this model, there was an increasing amount of children being named "Allison" than was actually predicted, resulting in a positive linear pattern. Where this data ends in 2014, your name wasn't as cool as it was in 1998 or 2009, but if this pattern has continued, it is possible that your name is getting more and more cool again.
+
+## 5. Spelling
+
+### 1) "Allan", "Alan", and "Allen" Plot
+
+```{r}
+
+a_names |> 
+  filter(Sex_at_Birth == "M",
+         Name == "Allan" | Name == "Alan" | Name == "Allen") |> 
+  group_by(Name, Year) |> 
+  summarise(al_count = sum(Count), .groups = "drop") |> 
+  ggplot(mapping = aes(x = Year, y = al_count, color = Name)) +
+    geom_point() +
+    geom_line() +
+    labs(x = "Year Observed",
+         y = "",
+         title = "Count of Name Variant") +
+    scale_x_continuous(n.breaks=10) +
+    scale_y_continuous(n.breaks=10)
+
+```
+
+### 2) "Allan", "Alan", and "Allen" in 2000 in Pennsylvania and in California
+
+```{r}
+
+a_names |> 
+  filter(Name == "Allan" | Name == "Alan" | Name == "Allen",
+         Year == "2000",
+         State == "PA" | State == "CA",
+         Sex_at_Birth == "M") |> 
+  group_by(State, Name) |> 
+  summarize(al_counts = sum(Count), .groups = "drop") |> 
+  pivot_wider(names_from = Name,
+              values_from = al_counts)
+
+```
+
+### 3) Convert Total Counts to Percentages
+
+```{r}
+
+convert_percent <- function(row, total) {
+  stopifnot(is.numeric(row))
+  stopifnot(is.numeric(total))
+  
+  percentage <- round((row / total) * 100, 2)
+  
+  return(percentage)
+}
+
+a_names |> 
+  filter(Name == "Allan" | Name == "Alan" | Name == "Allen",
+         Year == "2000",
+         State == "PA" | State == "CA",
+         Sex_at_Birth == "M") |> 
+  group_by(State, Name) |> 
+  summarize(al_count = sum(Count), .groups = "drop") |> 
+  pivot_wider(names_from = Name,
+              values_from = al_count) |> 
+  rowwise() |> 
+  mutate(total_count = sum(c_across(Alan : Allen)),
+         Alan = convert_percent(Alan, total_count),
+         Allan = convert_percent(Allan, total_count),
+         Allen = convert_percent(Allen, total_count)) |> 
+  subset(, select = -c(total_count))
+
+```

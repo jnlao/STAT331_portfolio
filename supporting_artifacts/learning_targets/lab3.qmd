@@ -1,0 +1,268 @@
+---
+title: "Lab 3: Hip-Hop Lyrics"
+author: "Janalyn Lao"
+format: 
+  html:
+    self-contained: true
+editor: visual
+theme: cyborg
+code-fold: show
+---
+
+## Setup
+
+```{r}
+#| label: setup
+#| message: false
+
+library(tidyverse)
+library(here)
+
+```
+
+```{r}
+#| label: load data
+#| message: false
+
+hiphop <- read_csv(here::here("labs", "lab3", "revision", "hiphop.csv"))
+
+```
+
+## Summary
+
+1\) The dataset contains results from a study to predict musical taste based on African American English (AAE). Of a group of 168 subjects, each one was asked to define 64 AAE terms and based on these definitions, a "familiarity" score of 1-5 was created- 1 being no familiarity and 5 being well familiarity. The dataset provides information on the subjects such as: sex, age, and ethnicity; the AAE terms and subject's familiarity scores; and related social network variables.
+
+2\) The rows of this dataset are the AAE words listed 64 times for each 168, which gives a row dimension of 10752.
+
+3\) If a subject didn't provide a city or country, the population number was substituted by 0. The benefits of this is that the researchers don't have to estimate a general number to make up for the lack of population, which will help the data to stay as accurate to the actual information as possible. However, a drawback of this is that though the data is accurate to the given data, it is not completely correct since it doesn't account for the subject's actual city and country populations.
+
+Moreover, missing values were replaced with mean values. This could benefit the study because using mean values gives a "good" general value to be able to continue the study without missing information, however, because it was just a general value, it can influence and cause the outcome data to be inaccurate.
+
+## 4) Clean the Dataset
+
+```{r}
+#| label: cleaning the dataset
+#| message: false
+
+hiphop_cleaned <- hiphop |> 
+  #   drop_na(numPreferredArtists,  numOverallArtists) |> 
+  mutate(across(where(is.character), as.factor))
+
+```
+
+## 5) How Many Unique AAE Words Are Used?
+
+```{r}
+#| label: count unique AAE words
+#| message: false
+
+AAE_words <- distinct(hiphop_cleaned, word, .keep_all = TRUE) |> 
+  count()
+```
+
+There are 64 unique AAE words used.
+
+## 6) Re-categorizing "ethnic"
+
+```{r}
+#| label: re-categorizing "ethnic"
+#| message: false
+
+hiphop_recat <- hiphop_cleaned |> 
+  mutate(ethnic = if_else(ethnic != "white", "non-white", "white"))
+
+```
+
+## 7) What are the demographics of the people in this study?
+
+```{r}
+#| label: demographics
+#| message: false
+
+demographics <- hiphop_cleaned |> 
+  distinct(subj, sex, age, ethnic)
+  
+summary(demographics)
+
+```
+
+After dropping all participants who answered "NA", the majority of the participants were female (56), with only 24 males. The average age of the participants were 19 years old and mostly white, with asian ethnicities following behind.
+
+## 8) Demographic Plots
+
+```{r}
+#| label: demographic plots
+#| message: false
+#| layout-ncol: 2
+
+ggplot(data = demographics,
+  mapping = aes(x = ethnic)) +
+  xlab("ethnicity of subject") +
+       ylab("subject count") +
+  geom_bar()
+
+ggplot(data = demographics,
+  mapping = aes(x = age)) +
+  xlab("age of subject") +
+       ylab("subject count") +
+  geom_bar()
+```
+
+## Familiar Words
+
+### a) people below the age of 20
+
+```{r}
+#| label: a) below age 20
+#| message: false
+
+below20 <- hiphop_recat |>  
+  filter(age < 20) |> 
+  group_by(word) |>
+  summarize(avg_familiarity = mean(familiarity))
+below20_min <- below20 |> 
+  slice_min(order_by = avg_familiarity, n = 5)
+below20_max <- below20|> 
+  slice_max(order_by = avg_familiarity, n = 5)
+  
+```
+
+On average, the least familiar words for people below the age of 20 are:
+
+-   "The Nation"
+
+-   "domino"
+
+-   "catch the vapors"
+
+-   "humming"
+
+-   "dollar cab"
+
+On average, the most familiar words for people below the age of 20 are:
+
+-   "feel me"
+
+-   "off the hook"
+
+-   "hella"
+
+-   "boo"
+
+-   "what it do"
+
+### b) non-white women
+
+```{r}
+#| label: b) non-white women
+#| message: false
+
+nonwhiteWomen <- hiphop_recat |> 
+  filter(
+    sex == 'Female', 
+    ethnic == 'non-white') |> 
+  group_by(word) |> 
+  summarize(avg_familiarity = mean(familiarity))
+nonwhiteWomen_min <- nonwhiteWomen |> 
+  slice_min(order_by = avg_familiarity, n = 5)
+nonwhiteWomen_max <- nonwhiteWomen |> 
+  slice_max(order_by = avg_familiarity, n = 5)
+
+```
+
+On average, the least familiar words for non-white women are:
+
+-   "break someone out"
+
+-   "dollar cab"
+
+-   "domino"
+
+-   "dukey rope"
+
+-   "humming"
+
+-   "plex"
+
+-   "rollie"
+
+-   "The Nation"
+
+On average, the most familiar words for non-white women are:
+
+-   "what it do
+
+-   "feel me"
+
+-   "boo"
+
+-   "finna"
+
+-   "off the hook"
+
+### c) white men above the age of 30
+
+```{r}
+#| label: c) whie men above 30
+#| message: false
+
+whiteMen_above30 <- hiphop_recat |> 
+  filter(
+    sex == 'Male', 
+    ethnic == 'white', 
+    age > 30) |> 
+  group_by(word) |> 
+  summarize(avg_familiarity = mean(familiarity))
+whiteMen_above30_min <- whiteMen_above30 |> 
+  slice_min(order_by = avg_familiarity)
+whiteMen_above30_max <- whiteMen_above30 |> 
+  slice_max(order_by = avg_familiarity, n = 5)
+
+```
+
+On average, white men above the age of 30 were unfamiliar with 59/64 words. Some of which being:
+
+-   "\[to be\] ghost"
+
+-   "A-town"
+
+-   "ashy"
+
+-   "ay yo trip"
+
+-   "ballin"
+
+On average, the most familiar words for white men above the age of 30 are:
+
+-   "5-0"
+
+-   "hard"
+
+-   "make it rain"
+
+-   "dead presidents"
+
+-   "talking jazz"
+
+## Study Subjects
+
+```{r}
+#| label: study subjects
+#| message: false
+
+possibly_bieber <- hiphop |> 
+  distinct(subj, .keep_all = TRUE) |>
+  filter(
+    sex == 'Male',
+    ethnic == 'white',
+    city > 10000,
+    city < 60000,
+    age > 17,
+    age < 23) |> 
+  slice_max(order_by = bieber)
+
+# p17 named the most bieber songs while meeting all requirements!
+
+```
+
+I believe subject p17 is secretly Justin Bieber.
