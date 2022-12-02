@@ -18,16 +18,16 @@ library(tidyverse)
 
 ```
 
+## Question 1
+
 ```{r}
 #| message: false
 
-fish <- read_csv(here::here("labs", "lab7", "revision", "BlackfootFish.csv"))
+fish <- read_csv(here::here("supporting_artifacts", "learning_targets", "BlackfootFish.csv"))
 
 ```
 
-## **Part One: Summaries and Plots**
-
-### 1) Summarizing Missing Data
+## Question 2
 
 ```{r}
 
@@ -43,7 +43,7 @@ fish |>
 
 1796 observations are missing from "weight".
 
-### 2) **Visualizing Missing Data**
+## Question 3
 
 ```{r}
 #| message: false
@@ -66,9 +66,7 @@ fish |>
 
 ```
 
-## **Part Two: Adjusting the Data**
-
-### Task 1, 2 and 3: Writing a Function With Stops and a Test
+## Question 4
 
 ```{r}
 
@@ -87,7 +85,7 @@ rescale_01(x)
 
 ```
 
-### Task 4: Performing a More Difficult Test
+## Question 5
 
 ```{r}
 #| layout-ncol: 2
@@ -108,7 +106,7 @@ ggplot(data = fish_len,
 
 ```
 
-### Task 5: Incorporating Variables
+## Question 6
 
 ```{r}
 

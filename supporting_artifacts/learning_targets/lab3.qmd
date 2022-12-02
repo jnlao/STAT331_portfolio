@@ -20,11 +20,13 @@ library(here)
 
 ```
 
+## Question 1
+
 ```{r}
 #| label: load data
 #| message: false
 
-hiphop <- read_csv(here::here("labs", "lab3", "revision", "hiphop.csv"))
+hiphop <- read_csv(here::here("supporting_artifacts", "learning_targets", "hiphop.csv"))
 
 ```
 
@@ -38,7 +40,7 @@ hiphop <- read_csv(here::here("labs", "lab3", "revision", "hiphop.csv"))
 
 Moreover, missing values were replaced with mean values. This could benefit the study because using mean values gives a "good" general value to be able to continue the study without missing information, however, because it was just a general value, it can influence and cause the outcome data to be inaccurate.
 
-## 4) Clean the Dataset
+## Question 2
 
 ```{r}
 #| label: cleaning the dataset
@@ -50,7 +52,7 @@ hiphop_cleaned <- hiphop |>
 
 ```
 
-## 5) How Many Unique AAE Words Are Used?
+## Question 3
 
 ```{r}
 #| label: count unique AAE words
@@ -62,7 +64,7 @@ AAE_words <- distinct(hiphop_cleaned, word, .keep_all = TRUE) |>
 
 There are 64 unique AAE words used.
 
-## 6) Re-categorizing "ethnic"
+## Question 4
 
 ```{r}
 #| label: re-categorizing "ethnic"
@@ -73,7 +75,7 @@ hiphop_recat <- hiphop_cleaned |>
 
 ```
 
-## 7) What are the demographics of the people in this study?
+## Question 5
 
 ```{r}
 #| label: demographics
@@ -88,7 +90,7 @@ summary(demographics)
 
 After dropping all participants who answered "NA", the majority of the participants were female (56), with only 24 males. The average age of the participants were 19 years old and mostly white, with asian ethnicities following behind.
 
-## 8) Demographic Plots
+## Question 6
 
 ```{r}
 #| label: demographic plots
@@ -108,9 +110,7 @@ ggplot(data = demographics,
   geom_bar()
 ```
 
-## Familiar Words
-
-### a) people below the age of 20
+## Question 7
 
 ```{r}
 #| label: a) below age 20
@@ -151,7 +151,7 @@ On average, the most familiar words for people below the age of 20 are:
 
 -   "what it do"
 
-### b) non-white women
+## Question 8
 
 ```{r}
 #| label: b) non-white women
@@ -200,7 +200,7 @@ On average, the most familiar words for non-white women are:
 
 -   "off the hook"
 
-### c) white men above the age of 30
+## Question 9
 
 ```{r}
 #| label: c) whie men above 30
@@ -244,7 +244,7 @@ On average, the most familiar words for white men above the age of 30 are:
 
 -   "talking jazz"
 
-## Study Subjects
+## Question 10
 
 ```{r}
 #| label: study subjects

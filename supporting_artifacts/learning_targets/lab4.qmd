@@ -1,7 +1,9 @@
 ---
 title: "Lab 4: Millennials & Avocados"
 author: "Janalyn Lao"
-format: html
+format: 
+  html:
+    self-contained: true
 editor: visual
 theme: cyborg
 code-fold: show
@@ -20,17 +22,17 @@ library(here)
 
 1\) The avocado.csv dataset has the weekly retail scan information of Hass avocados from 2018. It includes information like the date of observation, region, total volume, average price, and total number of sales of specific PLU values. This data was taken from the Hass Avocado Board.
 
+## Question 1
+
 ```{r}
 #| label: import avocados
 #| message: false
 
-avocado <- read_csv(here::here("labs", "lab4", "avocado.csv"))
+avocado <- read_csv(here::here("supporting_artifacts", "learning_targets", "avocado.csv"))
 
 ```
 
-## 2) Code Cleanup
-
-### By Region
+## Question 2
 
 ```{r}
 #| label: code cleanup by region
@@ -54,7 +56,7 @@ avocado_region <- avocado |>
 
 ```
 
-### By State
+## Question 3
 
 ```{r}
 #| label: code cleanup by state
@@ -70,7 +72,7 @@ avocado_state <- avocado |>
 
 ```
 
-### By Metropolitan Area
+## Question 4
 
 ```{r}
 #| label: code cleanup by metro area
@@ -87,7 +89,7 @@ metro_check <- avocado_metro |>
 
 ```
 
-# 3) Exercises
+## Question 5
 
 ```{r}
 #| label: major region that sold the most organic, small Hass avocados in 2017
@@ -104,6 +106,8 @@ avocado_region |>
 
 3\) The Northeast sold the most organic, small Hass avocados in 2017.
 
+## Question 6
+
 ```{r}
 #| label: month with highest volume avocado sales
 
@@ -118,6 +122,8 @@ avocado |>
 ```
 
 4\) The highest volume of avocado sales was in February.
+
+## Question 7
 
 ```{r}
 #| label: metro areas with most total avocado sales
@@ -138,7 +144,7 @@ ggplot(data = metro_plot,
 
 5\) The five metro area regions that sold the most total avocados are: GreatLakes, LosAngeles, DallasFtWorth, Houston, and PhoenixTucson.
 
-# 4) Reshaping
+## Question 8
 
 ```{r}
 #| label: setup for CA region questions
@@ -154,6 +160,8 @@ avocado_ca <- avocado_metro |>
             by = c("region" = "city"))
 
 ```
+
+## Question 9
 
 ```{r}
 #| label: region with largest organic v. conventional diffrence
@@ -177,6 +185,8 @@ price_diff
 ```
 
 6\) The price of organic vs. conventional avocados was the most different in San Francisco and Sacramento, with San Diego not far behind.
+
+## Question 10
 
 ```{r}
 #| label: recreating plot

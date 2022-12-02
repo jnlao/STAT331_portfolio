@@ -1,7 +1,9 @@
 ---
 title: "Lab 8: The 12 Days of Christmas Song"
 author: Janalyn Lao
-format: html
+format:
+  html: 
+    self-contained: true
 editor: visual
 theme: cyborg
 code-fold: show
@@ -19,6 +21,8 @@ library(purrr)
 
 Run the code below to load up a dataset called `xmas` that contains the crucial information about the gifts in the song. We will use this dataset to test out our functions as we work on them.
 
+## Question 1
+
 ```{r}
 xmas <- read.csv("https://www.dropbox.com/s/e584pryn8evm1gz/xmas.csv?dl=1")
 ```
@@ -30,6 +34,8 @@ xmas <- read.csv("https://www.dropbox.com/s/e584pryn8evm1gz/xmas.csv?dl=1")
 Note that the gifts are listed in singular: for example, on day five the narrator receives "five golden rings", but the entry in the dataset for the gift on day five simply says "ring".
 
 Using the skeleton of the `pluralize_gift()` function, complete the code so that the function takes a gift and returns the appropriate plural.
+
+## Question 2
 
 ```{r pluralize-function}
 # Function that takes a noun and makes it plural
@@ -53,6 +59,8 @@ pluralize_gift <- function(gift){
 ### Test Your Function
 
 Try your function out on the smaller and then larger gift dataset. Consider: is your function *vectorized*? It does not have to be, but you can try it out if you want!
+
+## Question 3
 
 ```{r pluralize-test}
 
@@ -79,6 +87,8 @@ Write a function called `make_phrase()` that takes as input the necessary inform
 should return
 
     "ten lords a-leaping"
+
+## Question 4
 
 ```{r phrase-function}
 make_phrase <- function(num_word, item, verb, adjective, location) {
@@ -113,6 +123,8 @@ make_phrase <- function(num_word, item, verb, adjective, location) {
 
 Try your function out on the `xmas` data, by making a new variable containing the daily phrases. Notice I've provided you with the code to iterate through each row of the dataset to create a phrase--all you need to do is provide the necessary inputs into `pmap_chr()`.
 
+## Question 5
+
 ```{r}
 xmas2 <- xmas %>%
   mutate(day.num = as.character(english::english(Day)
@@ -128,7 +140,7 @@ xmas2 <- xmas %>%
   )
 ```
 
-## Step 3: Iteration
+## Question 6
 
 ```{r}
 # Produces the string for one day of the song.
@@ -158,6 +170,8 @@ sing_day <- function(dataset, line, phrase_col){
 }
 ```
 
+## Question 7
+
 ```{r}
 xmas2 |>
   sing_day(line = 2, phrase_col = Full.Phrase)
@@ -167,7 +181,7 @@ map_chr(1:12, ~ sing_day(xmas2, .x, Full.Phrase)) |>
   cat()
 ```
 
-## **Step Four: Use Your Functions!**
+## Question 8
 
 ```{r}
 xmas2 <- xmas |>
