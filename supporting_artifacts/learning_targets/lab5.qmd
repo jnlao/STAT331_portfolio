@@ -1,0 +1,158 @@
+---
+title: "Lab 5"
+author: "Janalyn Lao"
+format: 
+  html:
+    self-contained: true
+editor: visual
+theme: cyborg
+code-fold: show
+---
+
+# Setup
+
+```{r}
+#| label: loading in libraries
+#| message: false
+
+library(tidyverse)
+library(here)
+library(forcats)
+library(lubridate)
+
+```
+
+## Question 1
+
+```{r}
+#| label: reorder boxplots by descending weights
+#| message: false
+
+surveys <- read_csv(here::here("supporting_artifacts", "learning_targets", "surveys.csv"))
+
+surveys_reorder <- surveys |> 
+  mutate(species = factor(species),
+         species = fct_reorder(species, weight, .desc = FALSE))
+
+ggplot(data = surveys_reorder,
+       mapping = aes(x = weight, 
+                     y = species)) +
+  geom_jitter(size = .02, 
+              color = "blue", 
+              alpha = 0.2) +
+  geom_boxplot(outlier.shape = NA) +
+  labs(x = "Weight of Species (grams)", 
+       y = "") +
+  ggtitle("Species of Animal")      # fixing y-axis label
+
+```
+
+## Question 2
+
+```{r}
+#| label: q2.1
+#| warning: false
+
+ggplot(data = surveys,
+       mapping = aes(x = year, 
+                     y = weight, 
+                     color = genus)) +
+  geom_point()
+
+```
+
+## Question 3
+
+```{r}
+#| label: q2.2
+#| warning: false
+
+surveys_year_avg <- surveys |> 
+  group_by(genus, year) |> 
+  summarise(weight = mean(weight))
+
+ggplot(data = surveys_year_avg,
+       mapping = aes(x = year, 
+                     y = weight, 
+                     color = genus)) +
+  geom_line() +
+  geom_point()
+
+```
+
+## Question 4
+
+```{r}
+#| label: q2.3
+
+ggplot(data = surveys_year_avg,
+       mapping = aes(x = year, 
+                     y = weight, 
+                     color = fct_reorder2(genus, 
+                                          year, 
+                                          weight, 
+                                          .desc = TRUE))) +
+  geom_line() +
+  geom_point() +
+  labs(color = "Genus") +
+  ggtitle("Weight") +
+  labs(x = "Year", 
+       y = "")
+
+```
+
+# Question 5
+
+```{r}
+#| label: q3.1
+
+surveys_days <- surveys |> 
+  mutate(week_day = wday(date, 
+                         label = TRUE)) |> 
+  filter(!is.na(week_day))
+
+ggplot(data = surveys_days,
+       mapping = aes(x = week_day)) +
+  geom_bar(stat = 'count') +
+  labs(x = "Day of the Week", 
+       y = "Count")
+
+```
+
+## Question 6
+
+```{r}
+#| label: q3.2
+
+ggplot(data = surveys_days,
+       mapping = aes(x = fct_relevel(week_day, 
+                                     c("Mon", 
+                                       "Tue", 
+                                       "Wed", 
+                                       "Thu", 
+                                       "Fri",
+                                       "Sat", 
+                                       "Sun")))) +
+  geom_bar(stat = 'count') +
+  labs(x = "Day of the Week", 
+       y = "Count")
+```
+
+## Question 7
+
+```{r}
+#| label: q3.3
+
+ggplot(data = surveys_days,
+       mapping = aes(x = fct_collapse(week_day,
+                                      Weekday = c("Mon", 
+                                                  "Tue", 
+                                                  "Wed", 
+                                                  "Thu", 
+                                                  "Fri"),
+                                      Weekend = c("Sat", 
+                                                  "Sun")))) +
+  geom_bar(stat = 'count') +
+  labs(x = "Part of the Week", 
+       y = "Count")
+```

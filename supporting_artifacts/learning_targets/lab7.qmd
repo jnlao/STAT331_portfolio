@@ -92,7 +92,8 @@ rescale_01(x)
 
 fish_len <- fish |> 
   select(length) |> 
-  mutate(rescaled_len = rescale_01(length))
+  
+  (rescaled_len = rescale_01(length))
   
 ggplot(data = fish_len,
        mapping = aes(x = length)) +

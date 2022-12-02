@@ -20,13 +20,15 @@ library(DT)
 
 ```
 
-## 2. Is my name not cool anymore?
+## Question 1
 
 ```{r}
 #| message: false
 #| warning: false
 
-a_names <- read_csv(here::here("labs", "lab9", "BabyNames", "StateNames_A.csv"))
+a_names <- read_csv(here::here("supporting_artifacts", 
+                               "learning_targets", 
+                               "StateNames_A.csv"))
 
 a_names <- a_names |> 
   rename(Sex_at_Birth = 'Gender')
@@ -44,9 +46,7 @@ datatable(a_names,
 
 ```
 
-## 3. **Summarizing & Visualizing the Number of Allisons**
-
-### 1) Summary Table
+## Question 2
 
 ```{r}
 #| message: false
@@ -68,7 +68,7 @@ kable(allison_both_sexes,
 
 ```
 
-### 2) Only Babies Assigned Female at Birth
+## Question 3
 
 ```{r}
 
@@ -80,7 +80,7 @@ allison_females <- a_names |>
 
 ```
 
-### 3) Visualization of "Allison" Over the Years
+## Question 4
 
 ```{r}
 
@@ -103,9 +103,7 @@ ggplot(data = allison,
   
 ```
 
-## 4. Modeling the Number of Allisons
-
-### 4) Create a Linear Model
+## Question 5
 
 ```{r}
 
@@ -116,7 +114,7 @@ allison_lm
 
 ```
 
-### 5) Visualize the Regression Model
+## Question 6
 
 ```{r}
 
@@ -130,11 +128,11 @@ allison |>
 
 ```
 
-### 6) Estimated Regression Equation
+### Estimated Regression Equation
 
 y = 209815.1 - 101.6x
 
-### 7) Residuals and Patterns
+## Question 7
 
 ```{r}
 
@@ -152,13 +150,11 @@ allison_lm |>
 
 The only significant pattern I see is that starting in 2011, the residuals begin to increase in a linear way.
 
-### 8) What can you conclude from this model?
+### What can you conclude from this model?
 
 Based on this model, there was an increasing amount of children being named "Allison" than was actually predicted, resulting in a positive linear pattern. Where this data ends in 2014, your name wasn't as cool as it was in 1998 or 2009, but if this pattern has continued, it is possible that your name is getting more and more cool again.
 
-## 5. Spelling
-
-### 1) "Allan", "Alan", and "Allen" Plot
+## Question 8
 
 ```{r}
 
@@ -178,7 +174,7 @@ a_names |>
 
 ```
 
-### 2) "Allan", "Alan", and "Allen" in 2000 in Pennsylvania and in California
+## Question 9
 
 ```{r}
 
@@ -203,7 +199,7 @@ kable(als_PACA_2000,
 
 ```
 
-### 3) Convert Total Counts to Percentages
+## Question 10
 
 ```{r}
 
@@ -243,7 +239,7 @@ kable(al_percent,
 
 ```
 
-## **Challenge Part 2 - Formatting Nicer Tables**
+## Question 11
 
 ```{r}
 
