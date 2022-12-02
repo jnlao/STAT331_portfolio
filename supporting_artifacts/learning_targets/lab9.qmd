@@ -43,8 +43,8 @@ allison_both_sexes <- a_names |>
   group_by(Sex_at_Birth, State) |> 
   summarize(sex_count = sum(Count)) |> 
   pivot_wider(names_from = Sex_at_Birth,
-              values_from = sex_count)
-allison_both_sexes[is.na(allison_both_sexes)] <- 0
+              values_from = sex_count) |> 
+  mutate(M = coalesce(M, 0))
 
 allison_both_sexes
   
@@ -55,11 +55,8 @@ allison_both_sexes
 
 ```{r}
 
-allison_females <- a_names |>
-  filter(Name == "Allison",
-         Sex_at_Birth == "F") |> 
-  group_by(Sex_at_Birth, State) |> 
-  summarize(sex_count = sum(Count), .groups = "drop")
+allison_both_sexes |> 
+  select(State, F)
 
 ```
 
@@ -137,9 +134,11 @@ Based on this model, there was an increasing amount of children being named "All
 
 ```{r}
 
-a_names |> 
+allan_variants <- a_names |> 
   filter(Sex_at_Birth == "M",
-         Name == "Allan" | Name == "Alan" | Name == "Allen") |> 
+         Name == "Allan" | Name == "Alan" | Name == "Allen")
+  
+allan_variants |>
   group_by(Name, Year) |> 
   summarise(al_count = sum(Count), .groups = "drop") |> 
   ggplot(mapping = aes(x = Year, y = al_count, color = Name)) +
@@ -157,15 +156,15 @@ a_names |>
 
 ```{r}
 
-a_names |> 
-  filter(Name == "Allan" | Name == "Alan" | Name == "Allen",
-         Year == "2000",
-         State == "PA" | State == "CA",
-         Sex_at_Birth == "M") |> 
+allan_PACA2000 <- allan_variants |> 
+  filter(Year == "2000",
+         State == "PA" | State == "CA") |> 
   group_by(State, Name) |> 
   summarize(al_counts = sum(Count), .groups = "drop") |> 
   pivot_wider(names_from = Name,
               values_from = al_counts)
+
+allan_PACA2000
 
 ```
 
@@ -182,15 +181,7 @@ convert_percent <- function(row, total) {
   return(percentage)
 }
 
-a_names |> 
-  filter(Name == "Allan" | Name == "Alan" | Name == "Allen",
-         Year == "2000",
-         State == "PA" | State == "CA",
-         Sex_at_Birth == "M") |> 
-  group_by(State, Name) |> 
-  summarize(al_count = sum(Count), .groups = "drop") |> 
-  pivot_wider(names_from = Name,
-              values_from = al_count) |> 
+allan_PACA2000 |> 
   rowwise() |> 
   mutate(total_count = sum(c_across(Alan : Allen)),
          Alan = convert_percent(Alan, total_count),
