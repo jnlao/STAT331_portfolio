@@ -1,0 +1,97 @@
+---
+title: "Challenge 7"
+author: "Janalyn Lao"
+format: 
+  html:
+    self-contained: true
+editor: visual
+theme: cyborg
+code-fold: show
+---
+
+## Setup
+
+```{r}
+#| message: false
+
+library(tidyverse)
+
+```
+
+```{r}
+#| message: false
+
+fish <- read_csv(here::here("supporting_artifacts", "learning_targets", "data", "BlackfootFish.csv"))
+
+```
+
+## Part 1
+
+```{r}
+
+out_of_bounds <- function(vec, min_val, max_val) {
+  stopifnot(is.numeric(vec))
+  stopifnot(is.numeric(min_val))    # check if min/max are numerics
+  stopifnot(is.numeric(max_val))
+  
+  case_when(
+    {{ vec }} < min_val ~ NA_real_,
+    {{ vec }} > max_val ~ NA_real_,
+    TRUE ~ {{ vec }}
+  )
+}
+
+fish <- fish |> 
+  mutate(length = out_of_bounds(length, 152, 508),
+         weight = out_of_bounds(weight, 141, 1417)) |> 
+  na.omit()
+
+
+
+```
+
+https://fieldguide.mt.gov/displaySpecies.aspx?family=Salmonidae
+
+According to the Montana field guide, brown trout average 12-20in, rainbow trout average 12-17in, and westslope cutthroat trout average 6-16in, and bull trout average 6-12in. As a result, I want my minimum length to be 6in or about 152mm and maximum length to be 20in or 508mm.
+
+https://www.dec.ny.gov/outdoor/9222.html
+
+By using a ruler to get a general weight for my fish, the brown trout average should be 10-50oz, rainbow trout average should be 10-28oz, westslope cutthroat trout average should be 5-20oz, and bull trout average should be 5-10oz. As a result, I want my minimum weight to be 5oz or 141g and maximum weight to be 50oz or 1417g.
+
+### Part 2
+
+```{r}
+
+condition_ind <- function(data, length, weight) {
+  stopifnot(is.data.frame(data))
+  
+  data |> 
+    mutate(condition_index = ({{ weight }} / {{ length }} ^ 3) * 100)
+}
+
+fish_CI <- condition_ind(fish, length, weight)
+
+```
+
+### Part 3
+
+```{r}
+
+avg_CI <- fish_CI |> 
+  group_by(year, species, trip) |> 
+  mutate(mean_CI = mean(condition_index))
+
+  ggplot(data = avg_CI,
+         mapping = aes(x = year, 
+                       y = mean_CI)) +
+    geom_line() +
+    facet_grid(cols = vars(species), rows = vars(trip)) +
+    labs(title = "Condition Index Of Each Trout Species By Trip",
+         x = "Year Recorded",
+         y = "")
+
+# find the average CI across each species in each year
+
+# https://www3.nd.edu/~steve/computing_with_data/13_Facets/facets.html
+
+```

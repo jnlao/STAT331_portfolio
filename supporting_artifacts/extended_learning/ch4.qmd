@@ -1,0 +1,144 @@
+---
+title: "Challenge 4: Millennials & Avocados"
+author: "Janalyn Lao"
+format: 
+  html:
+    self-contained: true
+editor: visual
+theme: cyborg
+code-fold: show
+---
+
+# Introduction & Setup
+
+```{r}
+#| label: setup
+#| message: false
+
+library(tidyverse)
+library(here)
+
+```
+
+## Question 1
+
+```{r}
+#| label: import avocados
+#| message: false
+
+avocado <- read_csv(here::here("supporting_artifacts", "learning_targets", "data", "avocado.csv"))
+housing <- read_csv(here::here("supporting_artifacts", "learning_targets", "data", "housing.csv"))
+
+```
+
+## Question 2
+
+```{r}
+#| label: code cleanup by region (needed for metro)
+#| message: false
+
+all_regions <- avocado |> 
+  distinct(region)
+
+avocado <- avocado |> filter(region != "TotalUS")
+
+region <- data.frame(region = c("West", 
+                                "Midwest", 
+                                "SouthCentral", 
+                                "Southeast",
+                                "Plains",
+                                "Northeast",
+                                "Midsouth"))
+avocado_region <- avocado |> 
+  semi_join(region, 
+            by = "region")
+
+```
+
+## Question 3
+
+```{r}
+#| label: code cleanup by state (needed for metro)
+#| message: false
+
+state <- data.frame(state = c("California",
+                              "SouthCarolina",
+                              "NewYork"))
+avocado_state <- avocado |> 
+  semi_join(state, 
+            by = c("region" = "state"))
+
+
+```
+
+## Question 4
+
+```{r}
+#| label: code cleanup by metro area
+#| message: false
+
+avocado_metro <- avocado |> 
+  anti_join(region, 
+            by = "region") |> 
+  anti_join(state, 
+            by = c("region" = "state"))
+
+metro_check <- avocado_metro |> 
+  distinct(region)
+
+```
+
+## Question 5
+
+```{r}
+#| label: hosuing cleanup
+#| message: false
+
+housing <- housing |> 
+  mutate(Year = as.character(Year))
+
+```
+
+## Question 6
+
+```{r}
+#| label: setup for CA region questions
+#| message: false
+
+cali <- data.frame(city = c("LosAngeles",
+                            "SanDiego",
+                            "Sacramento",
+                            "SanFrancisco"))
+
+avocado_ca <- avocado_metro |> 
+  semi_join(cali, 
+            by = c("region" = "city")) |> 
+  separate(col = Date, 
+           into = c('Year', 'Month', 'Day'), 
+           sep = '-')
+
+```
+
+## Question 7
+
+```{r}
+#| label: combioning datasets and getting average prices
+#| message: false
+
+housing_avo <- avocado_ca |> 
+  full_join(housing) |> 
+  group_by(region, Year) |> 
+  summarise(avg_avo = mean(AveragePrice),
+            avg_housing = mean(`Average Housing Price`))
+
+ggplot(data = housing_avo,
+       mapping = aes(y = avg_avo,
+                     x = avg_housing,
+                     color = Year,
+                     shape = region)) +
+  geom_point(size = 3) +
+  labs(x = "Housing Prices (in hundred thousand dollars)", y = "Avocado Prices (in dollars)")
+
+```
+
+According to the scatter plot above, there is no data to suggest that Millennials can't afford houses because of avocado toast/the price of avocados. According to the joke, as housing prices increase, avocado sale prices should decrease so we should see a negative correlation of some kind, however, with how scattered this data looks, we can conclude that there is no such relation between the two prices.
