@@ -26,7 +26,7 @@ library(here)
 #| label: load data
 #| message: false
 
-hiphop <- read_csv(here::here("supporting_artifacts", "learning_targets", "hiphop.csv"))
+hiphop <- read_csv(here::here("supporting_artifacts", "learning_targets", "data", "hiphop.csv"))
 
 ```
 
