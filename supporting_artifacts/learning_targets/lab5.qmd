@@ -28,7 +28,7 @@ library(lubridate)
 #| label: reorder boxplots by descending weights
 #| message: false
 
-surveys <- read_csv(here::here("supporting_artifacts", "learning_targets", "surveys.csv"))
+surveys <- read_csv(here::here("supporting_artifacts", "learning_targets", "data", "surveys.csv"))
 
 surveys_reorder <- surveys |> 
   mutate(species = factor(species),

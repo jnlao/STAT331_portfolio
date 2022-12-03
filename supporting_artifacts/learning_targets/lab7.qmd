@@ -23,7 +23,7 @@ library(tidyverse)
 ```{r}
 #| message: false
 
-fish <- read_csv(here::here("supporting_artifacts", "learning_targets", "BlackfootFish.csv"))
+fish <- read_csv(here::here("supporting_artifacts", "learning_targets", "data", "BlackfootFish.csv"))
 
 ```
 
@@ -92,8 +92,7 @@ rescale_01(x)
 
 fish_len <- fish |> 
   select(length) |> 
-  
-  (rescaled_len = rescale_01(length))
+  mutate(rescaled_len = rescale_01(length))
   
 ggplot(data = fish_len,
        mapping = aes(x = length)) +

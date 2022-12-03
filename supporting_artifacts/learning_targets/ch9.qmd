@@ -29,7 +29,8 @@ library(DT)
 #| warning: false
 
 a_names <- read_csv(here::here("supporting_artifacts", 
-                               "learning_targets", 
+                               "learning_targets",
+                               "data",
                                "StateNames_A.csv"))
 
 a_names <- a_names |> 

@@ -26,6 +26,7 @@ library(here)
 
 a_names <- read_csv(here::here("supporting_artifacts", 
                                "learning_targets", 
+                               "data", 
                                "StateNames_A.csv"))
 
 a_names <- a_names |> 

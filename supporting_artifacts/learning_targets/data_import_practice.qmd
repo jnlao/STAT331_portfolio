@@ -1,6 +1,8 @@
 ---
 title: "Data Import Practice"
-format: html
+format: 
+  html:
+    self-contained: true
 editor: visual
 ---
 
@@ -17,7 +19,7 @@ library(readxl)
 
 ```{r}
 # Code to read in the ages.csv data goes here! 
-ages <- read.csv(here::here("activities", "act1_readingInData", "Ages_Data", "ages.csv"))
+ages <- read.csv(here::here("supporting_artifacts", "learning_targets", "data", "Ages_Data", "ages.csv"))
 
 ```
 
@@ -25,7 +27,7 @@ ages <- read.csv(here::here("activities", "act1_readingInData", "Ages_Data", "ag
 
 ```{r}
 # Code to read in the ages_tab.txt data goes here! 
-ages_table <- read.table(here::here("activities", "act1_readingInData", "Ages_Data", "ages.csv"))
+ages_table <- read.table(here::here("supporting_artifacts", "learning_targets", "data", "Ages_Data", "ages.csv"))
 
 ```
 
@@ -33,7 +35,7 @@ ages_table <- read.table(here::here("activities", "act1_readingInData", "Ages_Da
 
 ```{r}
 # Code to read in the ages_mystery.txt data goes here! 
-ages_myst <- read.delim(here::here("activities", "act1_readingInData", "Ages_Data", "ages_mystery.txt"), sep = "|")
+ages_myst <- read.delim(here::here("supporting_artifacts", "learning_targets", "data", "Ages_Data", "ages_mystery.txt"), sep = "|")
 
 ```
 
@@ -41,7 +43,7 @@ ages_myst <- read.delim(here::here("activities", "act1_readingInData", "Ages_Dat
 
 ```{r}
 # Code to read in the ages.xlsx data goes here! 
-ages_excel <- read_xlsx(here::here("activities", "act1_readingInData", "Ages_Data", "ages.xlsx"))
+ages_excel <- read_xlsx(here::here("supporting_artifacts", "learning_targets", "data", "Ages_Data", "ages.xlsx"))
 
 ```
 
@@ -53,7 +55,7 @@ stringsAsFactors indicates whether or not strings in a file or data set should b
 
 ```{r}
 # Code to read in the ages.csv with "Name" as a factor and "Age" as a character goes here! 
-ages_data <- read.csv(here::here("activities", "act1_readingInData", "Ages_Data", "ages.csv"), stringsAsFactors = TRUE, header = FALSE, as.is = 2)
+ages_data <- read.csv(here::here("supporting_artifacts", "learning_targets", "data", "Ages_Data", "ages.csv"), stringsAsFactors = TRUE, header = FALSE, as.is = 2)
 
 # sapply(ages_data, class)    # shows which class the columns are
 

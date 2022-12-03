@@ -26,8 +26,8 @@ library(here)
 #| label: import avocados
 #| message: false
 
-avocado <- read_csv(here::here("supporting_artifacts", "learning_targets", "avocado.csv"))
-housing <- read_csv(here::here("supporting_artifacts", "learning_targets", "housing.csv"))
+avocado <- read_csv(here::here("supporting_artifacts", "learning_targets", "data", "avocado.csv"))
+housing <- read_csv(here::here("supporting_artifacts", "learning_targets", "data", "housing.csv"))
 
 ```
 
