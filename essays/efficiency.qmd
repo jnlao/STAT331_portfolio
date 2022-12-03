@@ -6,3 +6,9 @@ format:
     self-contained: true
 editor: visual
 ---
+
+The term \"efficiency\" is being able to create concise programs and code that save time in the least amount of steps. In statistical computing and data science, efficiency looks like thoughtful, non-repetitive code that uses modern, helpful tools like the tidyverse package. Using these modern tools can help data scientists to perform computations and manipulations on data in order to create visualizations or summaries in the quickest and most accurate way possible. Efficiency allows for data scientists to create easy-to-read outputs in various forms and data types in order to be used in statistical computing and analysis. With efficient programs and code, others will be able to easily read and understand the purpose and end-goal and can help them reproduce their output for further investigations and research. It is important to be efficient because it saves the data scientist time and resources going into coding and it also saves the reader time and confusion of having to unpack and analyze the code or output.
+
+\
+
+One of the earliest \"a-ha\" moments I had was when the pipe operator was introduced to us in class. In week 3, we learned about the pipe operator, which is used to pipe together a sequence of operations. I\'ve used the pipe in every assignment in the portfolio, however lab 3 question 7, is where I first began using it more widely. The pipe operator helps with efficiency because it helps me to group together multiple operations on a dataset if the operations are all for a common goal. A secondary \"a-ha\" moment that I experienced along with learning about the pipe operator is using the keyboard shortcut: cmd + shift + m. This command is used to generate the pipe operator and has helped me with efficiency because it saves me time instead of manually writing the pipe operator every time.

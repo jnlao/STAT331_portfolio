@@ -1,25 +1,65 @@
-# Template for STAT 331 Portfolio
-
-See instructions for creating your final portfolio [here](https://docs.google.com/document/d/11iHZbvXWEjcpJpBQ_O5wpYlVkPfmcyQFgBFqKMlVjg4/edit?usp=sharing). This repository provides you with a template for how your portfolio repository is expected to be organized.
-
 # Table of Contents
 
 ## Final Grade Reflection
 
 ## Essay Responses
 
+The Power of Efficiency
+
+Growth as a Data Scientist
+
+Lightning Round
+
 ## Supporting Artifacts
 
 ### Demonstration of Learning Targets
+
+#### Practice Activities
+
+Data Import Practice
+
+Practice Activity 9 - Simulation
+
+#### Labs
+
+Lab 3
+
+Lab 4
+
+Lab 5
+
+Lab 7
+
+Lab 8
+
+Lab 9
+
+#### Challenges
+
+Challenge 4
+
+Challenge 9
 
 ### Demonstration of Continued Learning
 
 #### Revising My Thinking
 
-#### Extending My Thinking
+Revisions
 
-### Growth as a Team Member
+### Extending My Thinking
 
-This is a line from RStudio :)
+#### Challenges
 
-Testing 123
+Challenge 4
+
+Challenge 7
+
+Challenge 8
+
+Challenge 9
+
+### Demonstration of Being an Active Member of Classroom Community
+
+#### Discord Replies
+
+#### Peer Reviews
