@@ -1,7 +1,9 @@
 ---
 title: "My Growth as a Data Scientist"
 author: Janalyn Lao
-format: html
+format: 
+  html:
+    self-contained: true
 editor: visual
 ---
 
