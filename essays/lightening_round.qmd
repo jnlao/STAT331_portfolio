@@ -1,13 +1,15 @@
 ---
 title: "Lightening Round Essays"
 author: Janalyn Lao
-format: html
+format: 
+  html:
+    self-contained: true
 editor: visual
 ---
 
 ### Question 1
 
-If Elizabeth doesn\'t earn an A, then nobody should, because... she's put so much effort on all her assignments and has communicated very efficiently with her team when needed. Professor Theobold gives so many opportunities for students to improve and Elizabeth works hard to use these opportunities as best she can. Knowing her all quarter, she definitely deserves an A with how much effort and knowledge she's displayed with me in class.
+If Elizabeth doesn't earn an A, then nobody should, because... she's put so much effort on all her assignments and has communicated very efficiently with her team when needed. Professor Theobold gives so many opportunities for students to improve and Elizabeth works hard to use these opportunities as best she can. Knowing her all quarter, she definitely deserves an A with how much effort and knowledge she's displayed with me in class.
 
 ### Question 2
 
